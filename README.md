@@ -1,1 +1,101 @@
 # Priorisation-des-incidents-de-s-curit-par-alignement-MITRE-VERIS-VCDB
+Plate-forme d’intelligence SOC qui corrèle automatiquement des alertes Wazuh avec les référentiels **MITRE ATT&CK**, **VERIS** et **VCDB**, alimente une chaîne sémantique visuelle et produit un rapport HTML enrichi d’une analyse LLM locale.
+
+Développé par **Lahat Fall (UQAC)** dans le cadre d’un projet-stage en cybersécurité défensive — © 2025.
+
+---
+
+## Sommaire
+1. [Objectifs](#objectifs)
+2. [Architecture & modules](#architecture--modules)
+3. [Installation & prérequis](#installation--prérequis)
+4. [Lancement rapide](#lancement-rapide)
+5. [Fonctionnalités majeures](#fonctionnalités-majeures)
+6. [Mode RAG + LLM](#mode-rag--llm)
+7. [Rapports & exports](#rapports--exports)
+8. [Structure du dépôt](#structure-du-dépôt)
+9. [Crédits & licence](#crédits--licence)
+
+---
+
+## Objectifs
+- **Corrélation interprétable** : établir et justifier la chaîne _Alerte → Techniques MITRE → Actions VERIS → Incident_.
+- **Centralisation des connaissances** : exploiter une ontologie OWL (MITRE ↔ VERIS ↔ VCDB) et un mini-RAG local pour contextualiser chaque analyse.
+- **Automatisation SOC** : proposer un tableau de bord Streamlit, un générateur de rapports HTML et une intégration LLM (Ollama) qui reste 100 % locale.
+
+## Architecture & modules
+| Module | Rôle |
+| --- | --- |
+| `modules/alerts.py` | Ingestion d’alertes Wazuh (JSON/NDJSON/API) + extraction universelle des T-IDs. |
+| `modules/ontology.py` | Interrogations RDF/SPARQL, mapping _incidents ↔ actions ↔ techniques_. |
+| `modules/visuals.py` | Diagramme statique “Alerte → Techniques → Actions → Incident” (thème sombre). |
+| `modules/llm.py` | Wrapper Ollama + génération de prompt avec contexte auto + extraits RAG. |
+| `modules/rag.py` | Mini moteur RAG (bag-of-words/cosine) sur la documentation embarquée. |
+| `modules/report.py` | Générateur de rapport HTML (métriques synthétiques, sections MITRE/VERIS, bloc LLM). |
+
+## Installation & prérequis
+1. **Python** ≥ 3.11 + `pip`
+2. **Ollama** installé localement avec le modèle `llama3.2:1b` (par défaut). Exemple :
+   ```bash
+   ollama pull llama3.2:1b
+   ```
+3. (Optionnel) watchdog/uvicorn/etc. pour un déploiement containerisé.
+
+### Dépendances Python
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Lancement rapide
+```bash
+streamlit run streamlit_app.py
+```
+
+Le tableau de bord charge automatiquement :
+- l’ontologie OWL définie dans `config.yaml` (`owl_file`),
+- une alerte exemple (`alert_file`).
+
+## Fonctionnalités majeures
+- **Dashboard multi-onglets** : Accueil, Tableau de bord, Incidents, Détail incident, Flux d’alertes, Paramètres, Documentation.
+- **Filtrage avancé des incidents** : recherche textuelle, seuil minimum d’actions, sélection persistante.
+- **Chaîne sémantique interactive** : diagramme couleur, cohérent avec l’alerte, export PNG via Streamlit.
+- **Aperçu JSON & métadonnées** : prévisualisation des alertes importées, tableau des données extraites.
+- **RAG + LLM local** : la partie “Analyse & recommandations” exploite un contexte auto + extraits documentaires pertinents, puis appelle Ollama.
+- **Rapport HTML** : métriques, sections MITRE/VERIS, incident, analyse LLM (ou mention d’absence), prêt à être archivé ou partagé.
+
+## Mode RAG + LLM
+- La documentation interne (`DOC_SECTIONS_DATA`) est indexée à chaud par le module `SimpleRAG`.
+- Lors d’une analyse, les mots-clés (incident, T-IDs, actions, notes analyste) servent de requête pour récupérer les passages les plus pertinents.
+- Ces extraits sont affichés dans l’UI et injectés dans le prompt via `knowledge_chunks`, garantissant des réponses contextualisées tout en restant locales.
+
+## Rapports & exports
+- **HTML autonome** : généré via `modules/report.py`, contient logo, métriques, sections MITRE/VERIS, incident, bloc LLM.
+- **Téléchargement Streamlit** : bouton “📥 Télécharger le rapport (HTML)” disponible dans l’onglet Détail incident.
+- **Personnalisation** : modifier `modules/report.py` pour ajuster la charte, ajouter un logo spécifique ou intégrer d’autres sections.
+
+## Structure du dépôt
+```
+.
+├── assets/                 # Logo, images UI
+├── data/                   # Ontologie OWL + alerte d’exemple
+├── modules/
+│   ├── alerts.py
+│   ├── llm.py
+│   ├── ontology.py
+│   ├── rag.py
+│   ├── report.py
+│   ├── visuals.py
+│   └── …
+├── streamlit_app.py        # App principale (UI + logique)
+├── requirements.txt
+└── README.md               # Vous y êtes
+```
+
+## Crédits & licence
+- **Auteur** : Lahat Fall — Université du Québec à Chicoutimi (UQAC).
+- **Encadrement** : projet-stage en cybersécurité défensive (Automne 2025).
+- **Licence** : Tous droits réservés — reproduction ou redistribution interdite sans accord explicite.
+
+Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
