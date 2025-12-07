@@ -7,16 +7,22 @@ Développé par **Lahat Fall (UQAC)** dans le cadre d’un projet-stage en cyber
 ---
 
 ## Sommaire
-1. [Objectifs](#objectifs)
-2. [Architecture & modules](#architecture--modules)
-3. [Installation & prérequis](#installation--prérequis)
-4. [Lancement rapide](#lancement-rapide)
-5. [Fonctionnalités majeures](#fonctionnalités-majeures)
-6. [Mode RAG + LLM](#mode-rag--llm)
-7. [Rapports & exports](#rapports--exports)
-8. [Performances & sécurité](#performances--sécurité)
-9. [Structure du dépôt](#structure-du-dépôt)
-10. [Crédits & licence](#crédits--licence)
+- [Cyber Threat Intelligent (CTI)](#cyber-threat-intelligent-cti)
+  - [Sommaire](#sommaire)
+  - [Objectifs](#objectifs)
+  - [Architecture \& modules](#architecture--modules)
+  - [Installation \& prérequis](#installation--prérequis)
+    - [Dépendances Python](#dépendances-python)
+  - [Lancement rapide](#lancement-rapide)
+  - [Fonctionnalités majeures](#fonctionnalités-majeures)
+  - [Mode RAG + LLM](#mode-rag--llm)
+  - [Rapports \& exports](#rapports--exports)
+  - [Performances \& sécurité](#performances--sécurité)
+  - [Importance SOC \& perspectives](#importance-soc--perspectives)
+    - [Pourquoi cette plate-forme est critique pour un SOC](#pourquoi-cette-plate-forme-est-critique-pour-un-soc)
+    - [Perspectives du projet](#perspectives-du-projet)
+  - [Structure du dépôt](#structure-du-dépôt)
+  - [Crédits \& licence](#crédits--licence)
 
 ---
 
@@ -84,6 +90,20 @@ Le tableau de bord charge automatiquement :
 - **Qualité de code** : exécuter `ruff check modules streamlit_app.py tests` et `bandit -r modules streamlit_app.py` pour vérifier PEP8 + règles DevSecOps.
 - **LLM local uniquement** : aucun appel externe n’est effectué ; vérifier la configuration `config.yaml` pour activer/désactiver l’appel Ollama.
 
+## Importance SOC & perspectives
+### Pourquoi cette plate-forme est critique pour un SOC
+- **Visibilité bout-en-bout** : chaque alerte Wazuh est immédiatement reliée à des techniques MITRE, des actions VERIS et un incident documenté, ce qui réduit le temps d’investigation.
+- **Traçabilité documentaire** : le rapport HTML et l’explication LLM fournissent un artefact prêt à être archivé dans un ticketing SOC ou partagé avec une équipe CERT.
+- **Isolation des données** : les flux MITRE/VERIS/LLM restent sur site (aucune dépendance cloud), ce qui répond aux contraintes de confidentialité des SOC sensibles.
+- **Uniformisation des analyses** : la normalisation robuste des T-IDs et l’ontologie assurent une interprétation homogène, même lorsque les analystes changent d’équipe ou de shift.
+
+### Perspectives du projet
+- **Intégration multi-SIEM** : étendre l’ingestion à d’autres sources (Elastic, Splunk, Sentinel) pour couvrir une surface SOC plus large.
+- **Renforcement du moteur RAG** : ajouter des corpus spécifiques (playbooks internes, politiques de réponse) et proposer un filtrage par classification (impact/criticité).
+- **Automatisation enrichie** : générer automatiquement les tickets d’incident (ServiceNow/JIRA) ou pousser le rapport HTML vers un dépôt Git sécurisé.
+- **Déploiement conteneurisé** : proposer un chart Helm / image Docker officielle pour faciliter l’intégration dans des SOC hybrides.
+- **Tests et monitoring** : ajouter des suites de tests e2e et un healthcheck pour intégrer l’app dans un pipeline CI/CD SOC.
+
 ## Structure du dépôt
 ```
 .
@@ -108,4 +128,3 @@ Le tableau de bord charge automatiquement :
 - **Licence** : Tous droits réservés — reproduction ou redistribution interdite sans accord explicite.
 
 Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
-
