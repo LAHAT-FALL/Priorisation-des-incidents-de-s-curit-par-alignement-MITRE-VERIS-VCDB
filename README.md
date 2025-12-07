@@ -109,4 +109,3 @@ Le tableau de bord charge automatiquement :
 
 Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
 
-Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
