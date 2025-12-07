@@ -1,1 +1,101 @@
-
+{
+  "@timestamp": "2025-11-09T12:00:00Z",
+  "cluster": {
+    "name": "wazuh-labat"
+  },
+  "manager": {
+    "name": "wazuh-manager"
+  },
+  "agent": {
+    "id": "001",
+    "name": "kali-lahat",
+    "ip": "10.42.0.15"
+  },
+  "host": {
+    "hostname": "kali-lahat",
+    "os": {
+      "name": "Kali GNU/Linux",
+      "platform": "debian",
+      "version": "2024.3"
+    }
+  },
+  "event": {
+    "action": "blocked",
+    "module": "web",
+    "dataset": "apache.access",
+    "ingested": "2025-11-09T12:00:03Z",
+    "severity": 7
+  },
+  "rule": {
+    "id": "100001",
+    "level": 10,
+    "description": "Suspicious web request with encoded payload",
+    "groups": [
+      "web",
+      "attack",
+      "mitre",
+      "defense-evasion",
+      "execution"
+    ],
+    "mitre": {
+      "id": [
+        "T1564",
+        "T1564.001",
+        "T1059",
+        "T1059.003",
+        "T1027",
+        "T1027.003"
+      ],
+      "technique": [
+        "Hide Artifacts",
+        "Hide Artifacts: Hidden Files and Directories",
+        "Command and Scripting Interpreter",
+        "Command and Scripting Interpreter: Windows Command Shell",
+        "Obfuscated/Compressed Files and Information",
+        "Obfuscated/Compressed Files and Information: Steganography"
+      ],
+      "tactic": [
+        "defense-evasion",
+        "execution"
+      ]
+    }
+  },
+  "data": {
+    "srcip": "203.0.113.77",
+    "dstip": "10.42.0.15",
+    "url": "https://kali-lahat/upload.php",
+    "method": "POST",
+    "http_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "body": "cmd=echo%20%24%28cat%20/etc/passwd%29",
+    "extra": {
+      "decoded_payload": "cmd=$(cat /etc/passwd)",
+      "matched_techniques": "T1564,T1564.001,T1059,T1059.003,T1027,T1027.003"
+    }
+  },
+  "location": "/var/log/apache2/access.log",
+  "decoder": {
+    "name": "web-accesslog"
+  },
+  "message": "Exploit attempt observed. Techniques: T1564, T1059, T1027. Obfuscated payload dropped via hidden directory.",
+  "fields": {
+    "rule": {
+      "mitre": {
+        "id": [
+          "T1564",
+          "T1564.001",
+          "T1059",
+          "T1059.003",
+          "T1027",
+          "T1027.003"
+        ]
+      }
+    }
+  },
+  "location_id": "apache-prod-01",
+  "tags": [
+    "wazuh",
+    "http",
+    "mitre",
+    "cti-demo"
+  ]
+}
