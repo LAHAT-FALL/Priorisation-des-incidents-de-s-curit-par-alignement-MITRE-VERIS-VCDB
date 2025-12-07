@@ -1,5 +1,4 @@
 # Priorisation-des-incidents-de-s-curit-par-alignement-MITRE-VERIS-VCDB
-# Cyber Threat Intelligent (CTI)
 Plate-forme d’intelligence SOC qui corrèle automatiquement des alertes Wazuh avec les référentiels **MITRE ATT&CK**, **VERIS** et **VCDB**, alimente une chaîne sémantique visuelle et produit un rapport HTML enrichi d’une analyse LLM locale.
 
 Développé par **Lahat Fall (UQAC)** dans le cadre d’un projet-stage en cybersécurité défensive — © 2025.
