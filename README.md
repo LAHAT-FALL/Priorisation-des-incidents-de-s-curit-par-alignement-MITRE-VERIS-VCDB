@@ -123,7 +123,7 @@ Le tableau de bord charge automatiquement :
 
 ## Crédits & licence
 - **Auteur** : Lahat Fall — Université du Québec à Chicoutimi (UQAC).
-- **Encadrement** : projet-stage en cybersécurité défensive (Automne 2025).
+- **Encadrement** : projet-stage en cybersécurité défensive (Session-Automne-2025 ).
 - **Licence** : Tous droits réservés — reproduction ou redistribution interdite sans accord explicite.
 
 Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
