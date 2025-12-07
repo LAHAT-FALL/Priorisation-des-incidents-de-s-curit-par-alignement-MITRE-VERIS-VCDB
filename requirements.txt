@@ -1,0 +1,7 @@
+streamlit>=1.51
+rdflib>=7.0.0
+pyyaml>=6.0.2
+pandas>=2.2.0
+matplotlib>=3.8
+requests>=2.32.3
+plotly>=5.24

@@ -1,0 +1,9 @@
+owl_file: "data/sample-unified-materialized.owl"
+alert_file: "data/alert.json"
+llm:
+  enable: true
+wazuh:
+  url: "https://wazuh-manager:55000"
+  username: "foo"
+  password: "bar"
+  verify_tls: false
