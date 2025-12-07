@@ -1,4 +1,5 @@
 # Priorisation-des-incidents-de-s-curit-par-alignement-MITRE-VERIS-VCDB
+# Cyber Threat Intelligent (CTI)
 Plate-forme d’intelligence SOC qui corrèle automatiquement des alertes Wazuh avec les référentiels **MITRE ATT&CK**, **VERIS** et **VCDB**, alimente une chaîne sémantique visuelle et produit un rapport HTML enrichi d’une analyse LLM locale.
 
 Développé par **Lahat Fall (UQAC)** dans le cadre d’un projet-stage en cybersécurité défensive — © 2025.
@@ -13,8 +14,9 @@ Développé par **Lahat Fall (UQAC)** dans le cadre d’un projet-stage en cyber
 5. [Fonctionnalités majeures](#fonctionnalités-majeures)
 6. [Mode RAG + LLM](#mode-rag--llm)
 7. [Rapports & exports](#rapports--exports)
-8. [Structure du dépôt](#structure-du-dépôt)
-9. [Crédits & licence](#crédits--licence)
+8. [Performances & sécurité](#performances--sécurité)
+9. [Structure du dépôt](#structure-du-dépôt)
+10. [Crédits & licence](#crédits--licence)
 
 ---
 
@@ -60,7 +62,7 @@ Le tableau de bord charge automatiquement :
 ## Fonctionnalités majeures
 - **Dashboard multi-onglets** : Accueil, Tableau de bord, Incidents, Détail incident, Flux d’alertes, Paramètres, Documentation.
 - **Filtrage avancé des incidents** : recherche textuelle, seuil minimum d’actions, sélection persistante.
-- **Chaîne sémantique interactive** : diagramme couleur, cohérent avec l’alerte, export PNG via Streamlit.
+- **Chaîne sémantique statique optimisée** : diagramme couleur (Matplotlib) toujours visible, adaptable aux écrans étroits, exportable depuis Streamlit.
 - **Aperçu JSON & métadonnées** : prévisualisation des alertes importées, tableau des données extraites.
 - **RAG + LLM local** : la partie “Analyse & recommandations” exploite un contexte auto + extraits documentaires pertinents, puis appelle Ollama.
 - **Rapport HTML** : métriques, sections MITRE/VERIS, incident, analyse LLM (ou mention d’absence), prêt à être archivé ou partagé.
@@ -74,6 +76,13 @@ Le tableau de bord charge automatiquement :
 - **HTML autonome** : généré via `modules/report.py`, contient logo, métriques, sections MITRE/VERIS, incident, bloc LLM.
 - **Téléchargement Streamlit** : bouton “📥 Télécharger le rapport (HTML)” disponible dans l’onglet Détail incident.
 - **Personnalisation** : modifier `modules/report.py` pour ajuster la charte, ajouter un logo spécifique ou intégrer d’autres sections.
+
+## Performances & sécurité
+- **UI responsive** : la grille des KPI, les panneaux et les tableaux réagissent aux petits écrans (media queries embarquées) pour garder l’app confortable sur laptop/tablette.
+- **Chaîne graphique allégée** : PyVis a été retiré pour éviter le chargement de bibliothèques lourdes ; seul le rendu statique est conservé.
+- **Caching Streamlit** : l’ontologie RDF (`load_graph`) et l’extraction d’incident sont conservées en mémoire pour éviter les rechargements.
+- **Qualité de code** : exécuter `ruff check modules streamlit_app.py tests` et `bandit -r modules streamlit_app.py` pour vérifier PEP8 + règles DevSecOps.
+- **LLM local uniquement** : aucun appel externe n’est effectué ; vérifier la configuration `config.yaml` pour activer/désactiver l’appel Ollama.
 
 ## Structure du dépôt
 ```
@@ -95,7 +104,9 @@ Le tableau de bord charge automatiquement :
 
 ## Crédits & licence
 - **Auteur** : Lahat Fall — Université du Québec à Chicoutimi (UQAC).
-- **Encadrement** :Jonathan Roy dans le cours  projet-stage en cybersécurité défensive (Automne 2025).
+- **Encadrement** : projet-stage en cybersécurité défensive (Automne 2025).
 - **Licence** : Tous droits réservés — reproduction ou redistribution interdite sans accord explicite.
+
+Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
 
 Pour toute question ou collaboration, contactez l’équipe UQAC ou ouvrez une issue sur le dépôt associé.
